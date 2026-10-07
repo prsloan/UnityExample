@@ -1,0 +1,29 @@
+# Normalize line endings for everything git thinks is text.
+* text=auto
+
+# Unity YAML assets and scripts: always LF, so diffs and merges stay clean.
+*.cs           text eol=lf
+*.shader       text eol=lf
+*.cginc        text eol=lf
+*.hlsl         text eol=lf
+*.asmdef       text eol=lf
+*.json         text eol=lf
+*.meta         text eol=lf
+*.unity        text eol=lf
+*.prefab       text eol=lf
+*.asset        text eol=lf
+*.mat          text eol=lf
+*.controller   text eol=lf
+*.anim         text eol=lf
+*.physicmaterial text eol=lf
+*.physicMaterial text eol=lf
+
+# Binary assets.
+*.png   binary
+*.jpg   binary
+*.exr   binary
+*.wav   binary
+*.mp3   binary
+*.ogg   binary
+*.fbx   binary
+*.dll   binary
