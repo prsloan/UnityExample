@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class World : MonoBehaviour {
     public string worldName = "world";
-    public Dictionary<WorldPos, Chunk> chunks = new Dictionary<WorldPos, Chunk>();
+    [System.NonSerialized] public Dictionary<WorldPos, Chunk> chunks = new Dictionary<WorldPos, Chunk>();
 
     
 

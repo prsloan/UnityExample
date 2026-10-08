@@ -8,7 +8,7 @@ public class Chunk : MonoBehaviour {
     public World world;
     public WorldPos pos;
     public static int chunkSize = 16;
-    public Block[,,] blocks = new Block[chunkSize, chunkSize, chunkSize];
+    [System.NonSerialized] public Block[,,] blocks = new Block[chunkSize, chunkSize, chunkSize];
     public bool rendered;
     public bool update = false;
     MeshFilter filter;

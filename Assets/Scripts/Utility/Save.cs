@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-[Serializable]
+
+// Collects the blocks a player has changed in one chunk, ready to be written out.
 public class Save {
     public Dictionary<WorldPos, Block> blocks = new Dictionary<WorldPos, Block>();
 

@@ -57,3 +57,6 @@ crashlytics-build.properties
 # OS
 .DS_Store
 mono_crash.*
+
+# Runtime world saves
+/voxelGameSaves/
