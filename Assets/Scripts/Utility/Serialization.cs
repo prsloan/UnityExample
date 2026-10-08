@@ -14,7 +14,7 @@ public static class Serialization {
     const byte FormatVersion = 1;
 
     // Stable ids for each block type. Never renumber these, only append.
-    enum BlockType : byte { Stone = 0, Air = 1, Grass = 2, Leaves = 3, Wood = 4 }
+    enum BlockType : byte { Stone = 0, Air = 1, Grass = 2, Leaves = 3, Wood = 4, Water = 5 }
 
     static BlockType TypeOf(Block block) {
         switch (block)
@@ -23,6 +23,7 @@ public static class Serialization {
             case BlockGrass: return BlockType.Grass;
             case BlockLeaves: return BlockType.Leaves;
             case BlockWood: return BlockType.Wood;
+            case BlockWater: return BlockType.Water;
         }
         return BlockType.Stone;
     }
@@ -33,6 +34,7 @@ public static class Serialization {
             case BlockType.Grass: return new BlockGrass();
             case BlockType.Leaves: return new BlockLeaves();
             case BlockType.Wood: return new BlockWood();
+            case BlockType.Water: return new BlockWater();
             case BlockType.Stone: return new Block();
         }
         return null;

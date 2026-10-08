@@ -60,3 +60,7 @@ mono_crash.*
 
 # Runtime world saves
 /voxelGameSaves/
+
+# Third-party Asset Store audio (not redistributable); WaterMovement falls back to synthesized sounds
+/Assets/Rocklynn Productions - Water Splash Pack*
+/Assets/Resources/WaterSounds*

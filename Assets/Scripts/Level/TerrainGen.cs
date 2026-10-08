@@ -4,17 +4,19 @@ using SimplexNoise;
 
 
 public class TerrainGen {
-    float stoneBaseHeight = -24;
-    float stoneBaseNoise = 0.05f;
-    float stoneBaseNoiseHeight = 4;
-    float stoneMountainHeight = 48;
-    float stoneMountainFrequency = 0.008f;
-    float stoneMinHeight = -12;
-    float dirtBaseHeight = 1;
-    float dirtNoise = 0.04f;
-    float dirtNoiseHeight = 3;
-    float caveFrequency = 0.025f;
-    int caveSize = 7;
+    private float stoneBaseHeight = -24;
+    private float stoneBaseNoise = 0.05f;
+    private float stoneBaseNoiseHeight = 4;
+    private float stoneMountainHeight = 48;
+    private float stoneMountainFrequency = 0.008f;
+    private float stoneMinHeight = -12;
+    private float dirtBaseHeight = 1;
+    private float dirtNoise = 0.04f;
+    private float dirtNoiseHeight = 3;
+    private float caveFrequency = 0.025f;
+    private int caveSize = 7;
+    // Open air at or below this height becomes water. Low-lying ground floods into lakes.
+    private int waterLevel = -6;
 
     public Chunk ChunkGen(Chunk chunk) {
         for (int x = chunk.pos.x; x < chunk.pos.x + Chunk.chunkSize; x++) {
@@ -39,6 +41,9 @@ public class TerrainGen {
             }
             else if (y <= dirtHeight) {
                 chunk.SetBlock(x - chunk.pos.x, y - chunk.pos.y, z - chunk.pos.z, new BlockGrass());
+            }
+            else if (y <= waterLevel) {
+                chunk.SetBlock(x - chunk.pos.x, y - chunk.pos.y, z - chunk.pos.z, new BlockWater());
             }
             else {
                 chunk.SetBlock(x - chunk.pos.x, y - chunk.pos.y, z - chunk.pos.z, new BlockAir());

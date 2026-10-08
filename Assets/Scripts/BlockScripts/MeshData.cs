@@ -7,6 +7,9 @@ public class MeshData {
     public bool useRenderDataForCol;
     public List<Vector3> vertices = new List<Vector3>();
     public List<int> triangles = new List<int>();
+    // Triangles for the transparent water submesh. They share the vertex list
+    // above but never reach the collision mesh, so the player can enter water.
+    public List<int> waterTriangles = new List<int>();
     public List<Vector2> uv = new List<Vector2>();
     public List<Vector3> colVertices = new List<Vector3>();
     public List<int> colTriangles = new List<int>();
@@ -30,6 +33,16 @@ public class MeshData {
             colTriangles.Add(colVertices.Count - 2);
             colTriangles.Add(colVertices.Count - 1);
         }
+    }
+
+    // Same quad layout as AddQuadTriangles, but into the water submesh and with no collision.
+    internal void AddWaterQuadTriangles() {
+        waterTriangles.Add(vertices.Count - 4);
+        waterTriangles.Add(vertices.Count - 3);
+        waterTriangles.Add(vertices.Count - 2);
+        waterTriangles.Add(vertices.Count - 4);
+        waterTriangles.Add(vertices.Count - 2);
+        waterTriangles.Add(vertices.Count - 1);
     }
 
     public void AddVertex(Vector3 vertex) {

@@ -42,6 +42,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
+        // Set every frame by WaterMovement.
+        [HideInInspector] public float MoveSpeedScale = 1f;   // < 1 while wading or swimming
+        [HideInInspector] public bool InWater;                // feet in water: footsteps are replaced by sloshing
+        [HideInInspector] public bool Swimming;               // body in water: buoyancy instead of gravity
+        [HideInInspector] public bool AtSurface;              // swimming with the head above water
+        private const float SwimUpSpeed = 3f;
+        private const float WaterExitSpeed = 7f;                // pop onto a bank about one block above the surface
+        private const float SwimSinkSpeed = 1.2f;
+        private const float SwimAcceleration = 10f;
+
         // Use this for initialization
         private void Start()
         {
@@ -96,6 +106,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             float speed;
             GetInput(out speed);
+            speed *= MoveSpeedScale;
             // always move along the camera forward as it is the direction that it being aimed at
             Vector3 desiredMove = transform.forward*m_Input.y + transform.right*m_Input.x;
 
@@ -109,7 +120,21 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_MoveDir.z = desiredMove.z*speed;
 
 
-            if (m_CharacterController.isGrounded)
+            if (Swimming)
+            {
+                // buoyant: ease toward a slow sink, or swim up while jump is held
+                float targetY = CrossPlatformInputManager.GetButton("Jump") ? SwimUpSpeed : -SwimSinkSpeed;
+                m_MoveDir.y = Mathf.MoveTowards(m_MoveDir.y, targetY, SwimAcceleration*Time.fixedDeltaTime);
+                // at the surface, pushing against a bank with jump held: pop up and out
+                if (AtSurface && CrossPlatformInputManager.GetButton("Jump") &&
+                    (m_CollisionFlags & CollisionFlags.Sides) != 0)
+                {
+                    m_MoveDir.y = Mathf.Max(m_MoveDir.y, WaterExitSpeed);
+                }
+                m_Jump = false;
+                m_Jumping = false;
+            }
+            else if (m_CharacterController.isGrounded)
             {
                 m_MoveDir.y = -m_StickToGroundForce;
 
@@ -162,7 +187,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void PlayFootStepAudio()
         {
-            if (!m_CharacterController.isGrounded)
+            if (!m_CharacterController.isGrounded || InWater)
             {
                 return;
             }

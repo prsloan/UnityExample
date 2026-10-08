@@ -80,15 +80,22 @@ public class Chunk : MonoBehaviour {
     //Sends the calculated mesh information
     //to the mesh and collision components
     void RenderMesh(MeshData meshData) {
-        filter.mesh.Clear();
-        filter.mesh.vertices = meshData.vertices.ToArray();
-        filter.mesh.triangles = meshData.triangles.ToArray();
+        // Submesh 0 is the opaque terrain, submesh 1 is water (second material on the prefab).
+        // 32-bit indices: a busy chunk plus double-sided water can pass 65k vertices.
+        Mesh renderMesh = filter.mesh;
+        renderMesh.Clear();
+        renderMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
+        renderMesh.vertices = meshData.vertices.ToArray();
+        renderMesh.subMeshCount = 2;
+        renderMesh.SetTriangles(meshData.triangles, 0);
+        renderMesh.SetTriangles(meshData.waterTriangles, 1);
 
-        filter.mesh.uv = meshData.uv.ToArray();
-        filter.mesh.RecalculateNormals();
+        renderMesh.uv = meshData.uv.ToArray();
+        renderMesh.RecalculateNormals();
 
         coll.sharedMesh = null;
         Mesh mesh = new Mesh();
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         mesh.vertices = meshData.colVertices.ToArray();
         mesh.triangles = meshData.colTriangles.ToArray();
         mesh.RecalculateNormals();
