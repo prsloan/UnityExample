@@ -13,14 +13,12 @@ Features:
 
 Open `Assets/Scene1.unity` and press Play.
 
-### Third-party content
+### License
 
-- `Assets/Scripts/Utility/Noise.cs`: SimplexNoise for C# by Heikki Törmälä, public domain (Unlicense).
-- `Assets/Standard Assets`: a trimmed copy of Unity's Standard Assets (first-person controller and
-  cross-platform input), under the Unity Companion License.
-- `Assets/Art/Shaders/Subgraphs`, `Assets/Art/Textures/water_caustics.png`, and
-  `Assets/Art/Textures/puddle_norm.png`: from Unity's Shader Graph package samples, under the
-  Unity Companion License.
+The original code and assets are released under the MIT License. See [LICENSE](LICENSE).
+Some bundled components keep their own terms: public domain simplex noise, plus
+Unity Standard Assets and Shader Graph samples under the Unity Companion License.
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) lists them.
 
 Optional splash audio: `WaterMovement` loads any clips found in
 `Assets/Resources/WaterSounds/{Slosh,SplashIn,SplashOut}/` and falls back to synthesized sounds
